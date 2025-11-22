@@ -1,114 +1,165 @@
-/** @type {HTMLDivElement | null} */
-
+// getting elements
 let boxes = document.querySelectorAll(".btn");
-let next = document.querySelector(".next");
-let reset = document.querySelector(".reset");
-let players = document.querySelectorAll(".player");
-let symbols = document.querySelectorAll(".symbol");
-let player1 = document.querySelector("#name1");
-let player2 = document.querySelector("#name2");
-let points = document.querySelectorAll(".points");
-let note = document.querySelector(".note");
+let newgame = document.querySelector(".newgame");
+let retry = document.querySelector(".retry");
+let names = document.querySelectorAll(".name");
+let points1 = document.querySelector(".point1");
+let points2 = document.querySelector(".point2");
+let player1 = document.querySelector(".player1");
+let player2 = document.querySelector(".player2");
 
-player1.innerText = prompt("enter player1 name: ");
-player2.innerText = prompt("enter player2 name: ");
-
-let count1 = 0;
-let count2 = 0;
-let a =0;
+// writing initial conditions
+names[0].innerText = prompt("enter player1 name: ");
+names[1].innerText = prompt("enter player2 name: ");
 let sym1 = "X";
 let sym2 = "O";
-let sym = sym1;
-players[0].classList.add("win");
-symbols[0].classList.add("win");
+let num = Math.floor(Math.random() * 2);
+console.log(num);
+let player1points = 0;
+let player2points = 0;
+let sym;
+let initialsym;
+if (num === 0) {
+  sym = sym1;
+  initialsym = sym;
+  player1.classList.add("turn");
+} else {
+  sym = sym2;
+  initialsym = sym;
+  player2.classList.add("turn");
+}
+let winfound = false;
 
-for(let box of boxes){
-  box.addEventListener("click", ()=>{
-    if(a===7) return;
-    box.innerText= sym;
+// select buttons and game mechanism
+for (let box of boxes) {
+  box.addEventListener("click", () => {
+    box.innerText = sym;
     box.disabled = true;
-    if(sym === sym1){
+    if (sym === sym1) {
       sym = sym2;
-      players[1].classList.add("win");
-      symbols[1].classList.add("win");
-      players[0].classList.remove("win");
-      symbols[0].classList.remove("win");
-    }else{
+      player1.classList.remove("turn");
+      player2.classList.add("turn");
+    } else {
       sym = sym1;
-      players[0].classList.add("win");
-      symbols[0].classList.add("win");
-      players[1].classList.remove("win");
-      symbols[1].classList.remove("win");
+      player1.classList.add("turn");
+      player2.classList.remove("turn");
     }
     checkWinner();
   });
 }
+// checking winner
+let win = [
+  [0, 1, 2],
+  [3, 4, 5],
+  [6, 7, 8],
+  [0, 3, 6],
+  [1, 4, 7],
+  [2, 5, 8],
+  [0, 4, 8],
+  [2, 4, 6],
+];
+const checkWinner = () => {
+  for (let condition of win) {
+    let val1 = boxes[condition[0]].innerText;
+    let val2 = boxes[condition[1]].innerText;
+    let val3 = boxes[condition[2]].innerText;
 
-let possibilities= [[0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [2,4,6]];
-const checkWinner = ()=>{
-  for(possible of possibilities){
-    let val1 = boxes[possible[0]].innerText;
-    let val2 = boxes[possible[1]].innerText;
-    let val3 = boxes[possible[2]].innerText;
-
-    if(val1 !== "" && val1 === val2 && val2 === val3){
-      boxes[possible[0]].classList.add("win");
-      boxes[possible[1]].classList.add("win");
-      boxes[possible[2]].classList.add("win");
-      next.disabled=false;
-      note.remove();
-      next.classList.add("win2");
-      next.innerText= "Next Round";
-      a = 7;
-      if(val1 === "X"){
-        players[0].classList.add("win");
-        symbols[0].classList.add("win");
-        players[1].classList.remove("win");
-        symbols[1].classList.remove("win");
-        count1++;
-        points[0].innerText= count1;
+    if (val1 === val2 && val1 === val3 && val1 !== "") {
+      winfound = true;
+      for (let idx of condition) {
+        boxes[idx].classList.add("win-btn");
       }
-      if(val1 === "O"){
-        players[1].classList.add("win");
-        symbols[1].classList.add("win");
-        players[0].classList.remove("win");
-        symbols[0].classList.remove("win");
-        count2++;
-        points[1].innerText= count2;
+      for (let box of boxes) {
+        box.disabled = true;
+        retry.innerText = "Next Round";
+        retry.classList.add("win-btn");
+      }
+      if (val1 === sym1) {
+        player1points += 1;
+        player1.classList.add("turn");
+        player2.classList.remove("turn");
+        points1.innerText = player1points;
+        points2.innerText = player2points;
+      } else {
+        player2points += 1;
+        player2.classList.add("turn");
+        player1.classList.remove("turn");
+        points1.innerText = player1points;
+        points2.innerText = player2points;
       }
     }
   }
-}
+};
 
-next.addEventListener("click", ()=>{
-  next.innerText= "Retry";
-  for(let box of boxes){
-    box.innerText= "";
-    box.classList.remove("win");
-    box.disabled= false;
+// writing retry or new game
+let retrybtn = () => {
+  if (retry.innerText === "Retry") {
+    winfound = false;
+    for (let box of boxes) {
+      box.classList.remove("win-btn");
+      box.innerText = "";
+      box.disabled = false;
+    }
+    sym = initialsym;
+    if (sym === "X") {
+      player1.classList.add("turn");
+      player2.classList.remove("turn");
+    } else {
+      player2.classList.add("turn");
+      player1.classList.remove("turn");
+    }
+  } else {
+    retry.classList.remove("win-btn");
+    retry.innerText = "Retry";
+    winfound = false;
+    for (let box of boxes) {
+      box.classList.remove("win-btn");
+      box.innerText = "";
+      box.disabled = false;
+    }
+    player1.classList.remove("turn");
+    player2.classList.remove("turn");
+    num = Math.floor(Math.random() * 2);
+    console.log(num);
+    if (num === 0) {
+      sym = sym1;
+      initialsym = sym;
+      player1.classList.add("turn");
+    } else {
+      sym = sym2;
+      initialsym = sym;
+      player2.classList.add("turn");
+    }
   }
-  a = 0;
-  players[0].classList.add("win");
-  players[1].classList.remove("win");
-  sym = sym1;
+};
+
+retry.addEventListener("click", () => {
+  retrybtn();
 });
 
-reset.addEventListener("click", ()=>{
-  for(let box of boxes){
-    box.innerText= "";
-    box.classList.remove("win");
-    box.disabled= false;
+// wirting new game mechanism
+newgame.addEventListener("click", () => {
+  num = Math.floor(Math.random() * 2);
+  console.log(num);
+  player1points = 0;
+  player2points = 0;
+  winfound = false;
+  points1.innerText = 0;
+  points2.innerText = 0;
+  for (let box of boxes) {
+    box.classList.remove("win-btn");
+    box.innerText = "";
+    box.disabled = false;
   }
-  a = 0;
-  players[0].classList.add("win");
-  players[1].classList.remove("win");
-  sym = sym1;
-  points[0].innerText= 0;
-  points[1].innerText= 0;
-  player1.innerText = "";
-  player2.innerText = "";
-  player1.innerText = prompt("enter player1 name: ");
-  player2.innerText = prompt("enter player2 name: ");
-  count1 =0;
-  count2 =0;
+  player1.classList.remove("turn");
+  player2.classList.remove("turn");
+  if (num === 0) {
+    sym = sym1;
+    initialsym = sym;
+    player1.classList.add("turn");
+  } else {
+    sym = sym2;
+    initialsym = sym;
+    player2.classList.add("turn");
+  }
 });
