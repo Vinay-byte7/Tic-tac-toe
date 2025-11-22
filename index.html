@@ -1,48 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tic Tac Toe</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <h1 id="heading">🎈 tic tac toe 🎈</h1>
-    <div id="main">
-        <div id="player1">
-            <div class="player" id ="name1"></div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tic-Tac-Toe</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <a href="mailto:vinaygundala11@gmail.com" class="feedback">feedback</a>
+    <heading>
+      <div class="title">🎈Tic-Tac-Toe🎈</div>
+    </heading>
+    <main>
+      <div class="info">
+        <div class="player1">
+          <div class="details">
+            <div class="name"></div>
             <div class="symbol">X</div>
+          </div>
+          <div class="score">
+            <div class="points">Points:</div>
+            <div class="point1">0</div>
+          </div>
         </div>
-        <div class="box">
-            <button class="btn" id="btn1"></button>
-            <button class="btn" id="btn2"></button>
-            <button class="btn" id="btn3"></button>
-            <button class="btn" id="btn4"></button>
-            <button class="btn" id="btn5"></button>
-            <button class="btn" id="btn6"></button>
-            <button class="btn" id="btn7"></button>
-            <button class="btn" id="btn8"></button>
-            <button class="btn" id="btn9"></button>
-        </div>
-        <div id="player2">
-            <div class="player" id ="name2"></div>
+        <div class="player2">
+          <div class="details">
+            <div class="name"></div>
             <div class="symbol">O</div>
+          </div>
+          <div class="score">
+            <div class="points">Points:</div>
+            <div class="point2">0</div>
+          </div>
         </div>
-    </div>
-    <div class="count" id="count1">
-        <div>No. of points: </div>
-        <div class="points"></div>
-    </div>
-    <div class="count" id="count2">
-        <div>No. of points: </div>
-        <div class="points"></div>
-    </div>
-    <div id="next">
-        <button class="next">Retry</button>
-        <div class="note"></div>
-        <button class="reset">New Game</button>
-    </div>
-    <a href="mailto:vinaygundala11@gmail.com" class="feedback" title="we value your feedback, please have a 2 minutes for us 💕">feedback</a>
+      </div>
+      <div class="box">
+        <button class="btn" id="btn1"></button>
+        <button class="btn" id="btn2"></button>
+        <button class="btn" id="btn3"></button>
+        <button class="btn" id="btn4"></button>
+        <button class="btn" id="btn5"></button>
+        <button class="btn" id="btn6"></button>
+        <button class="btn" id="btn7"></button>
+        <button class="btn" id="btn8"></button>
+        <button class="btn" id="btn9"></button>
+      </div>
+    </main>
+    <footer>
+      <div class="buttons">
+        <button class="retry">Retry</button>
+        <button class="newgame">New Game</button>
+      </div>
+    </footer>
     <script src="logic.js"></script>
-</body>
+  </body>
 </html>
